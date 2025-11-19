@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Same Origin Level 3 - Final Level</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 8px;
+            background: linear-gradient(135deg, #ff5722 0%, #e64a19 100%);
+            color: white;
+            min-height: calc(100vh - 16px);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .info-section {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 0.85em;
+        }
+        
+        .final-content {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 12px;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            text-align: center;
+        }
+        
+        .level-indicator {
+            background: #4caf50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 6px 0;
+            font-size: 0.8em;
+        }
+        
+        .communication-section {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid #4caf50;
+            border-radius: 5px;
+            padding: 8px;
+            margin-top: 10px;
+            font-size: 0.8em;
+        }
+        
+        .access-demo {
+            background: rgba(33, 150, 243, 0.2);
+            border: 2px solid #2196f3;
+            border-radius: 5px;
+            padding: 8px;
+            margin-top: 8px;
+            font-size: 0.8em;
+        }
+        
+        button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8em;
+            margin: 2px;
+        }
+        
+        button:hover {
+            background: #45a049;
+        }
+        
+        .success {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        .error {
+            color: #f44336;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔴 Same-Origin Level 3</h1>
+        <p>Final level of triple same-origin nesting</p>
+        <div class="level-indicator">DEEPEST LEVEL - Level 3 of 3</div>
+    </div>
+    
+    <div class="info-section">
+        <h3>📍 Final Level Status:</h3>
+        <ul>
+            <li><strong>Frame Level:</strong> 3 (Same Origin - Deepest)</li>
+            <li><strong>Parent Chain:</strong> Level 2 → Level 1 → Main Page</li>
+            <li><strong>Access Level:</strong> Full access to all parent levels</li>
+            <li><strong>Security:</strong> Same origin as all parents</li>
+        </ul>
+    </div>
+    
+    <div class="final-content">
+        <h2>🎯 Final Destination Reached!</h2>
+        <p>This is the deepest level of the same-origin iframe nesting.</p>
+        <p><strong>All frames share the same security context.</strong></p>
+        
+        <div style="margin: 15px 0; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 5px;">
+            <h4>🔗 Connection Status:</h4>
+            <p id="parent-access-status">Checking parent access...</p>
+            <p id="grandparent-access-status">Checking grandparent access...</p>
+        </div>
+    </div>
+    
+    <div class="communication-section">
+        <h4>💬 Communication Demo:</h4>
+        <p>Since we're all same-origin, we can communicate freely:</p>
+        <button onclick="sendToParent()">Send to Level 2</button>
+        <button onclick="sendToGrandparent()">Send to Level 1</button>
+        <button onclick="sendToTop()">Send to Main Page</button>
+        <div id="message-status" style="margin-top: 5px; font-style: italic;"></div>
+    </div>
+    
+    <div class="access-demo">
+        <h4>🔧 DOM Access Demo:</h4>
+        <p>Same-origin allows direct DOM manipulation:</p>
+        <button onclick="modifyParent()">Modify Level 2</button>
+        <button onclick="modifyGrandparent()">Modify Level 1</button>
+        <button onclick="readParentTitle()">Read Parent Title</button>
+        <div id="access-results" style="margin-top: 5px; font-style: italic;"></div>
+    </div>
+
+    <h1>
+        ADJACENT CROSS ORIGIN
+    </h1>
+    <iframe src="https://example.com/" frameborder="0"></iframe>
+    
+    <script>
+       
+    </script>
+</body>
+</html>

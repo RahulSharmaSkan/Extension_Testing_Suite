@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow DOM Elements - With Iframes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #1a2332 0%, #16202d 100%);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 212, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        h1 {
+            color: #00d4ff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .set {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 5px;
+        }
+        
+        .regular-dom {
+            border-color: rgba(0, 212, 255, 0.4);
+            background-color: rgba(0, 212, 255, 0.05);
+        }
+        
+        .shadow-dom {
+            border-color: rgba(0, 212, 255, 0.5);
+            background-color: rgba(0, 212, 255, 0.08);
+        }
+        
+        .set-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #00d4ff;
+        }
+        
+        label {
+            display: block;
+            margin: 5px 0 2px 0;
+            font-weight: 500;
+            color: #b0b0b0;
+            font-size: 14px;
+        }
+        
+        input[type="text"] {
+            padding: 8px 12px;
+            margin: 5px 0;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 4px;
+            font-size: 14px;
+            display: block;
+            background: #0f1419;
+            color: #e0e0e0;
+        }
+        
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 4px;
+            font-size: 14px;
+            background: linear-gradient(135deg, #0099ff 0%, #00d4ff 100%);
+            color: #0a0e27;
+            cursor: pointer;
+            display: block;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            background: linear-gradient(135deg, #00b8d4 0%, #00e5ff 100%);
+            box-shadow: 0 2px 8px rgba(0, 212, 255, 0.4);
+        }
+        
+        textarea {
+            padding: 8px 12px;
+            margin: 5px 0;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 4px;
+            font-size: 14px;
+            display: block;
+            width: 300px;
+            min-height: 60px;
+            background: #0f1419;
+            color: #e0e0e0;
+        }
+        
+        .shadow-host {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            border: 1px dashed rgba(0, 212, 255, 0.5);
+            border-radius: 4px;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 200px;
+            border: 2px solid #00d4ff;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shadow DOM Elements - With Iframes</h1>
+        
+        <!-- Set 1: Regular DOM -->
+        <div class="set regular-dom">
+            <div class="set-title">Set 1 (Regular DOM)</div>
+            <label for="input-1">Email address:</label>
+            <input type="text" id="input-1" value="input-1">
+            <button>button-1</button>
+            <label for="textarea-1">Additional notes:</label>
+            <textarea id="textarea-1">text-area-1</textarea>
+        </div>
+        
+        <!-- Set 2: 1-level shadow root -->
+        <div class="set shadow-dom">
+            <div class="set-title">Set 2 (1-level Shadow Root)</div>
+            <div id="shadow-host-2" class="shadow-host"></div>
+        </div>
+        
+        <!-- Set 3: Regular DOM containing iframe -->
+        <div class="set regular-dom">
+            <div class="set-title">Set 3 (Regular DOM - Contains Iframe)</div>
+            <iframe id="iframe-set3" src="iframe_set3.html"></iframe>
+        </div>
+        
+        <!-- Set 4: 2-level nested shadow root -->
+        <div class="set shadow-dom">
+            <div class="set-title">Set 4 (2-level Nested Shadow Root)</div>
+            <div id="shadow-host-4" class="shadow-host"></div>
+        </div>
+        
+        <!-- Set 5: Regular DOM -->
+        <div class="set regular-dom">
+            <div class="set-title">Set 5 (Regular DOM)</div>
+            <label for="input-5">Customer ID:</label>
+            <input type="text" id="input-5" value="input-5">
+            <button>button-5</button>
+            <label for="textarea-5">Feedback:</label>
+            <textarea id="textarea-5">text-area-5</textarea>
+        </div>
+        
+        <!-- Set 6: Shadow root (open) containing iframe -->
+        <div class="set shadow-dom">
+            <div class="set-title">Set 6 (Shadow Root Open - Contains Iframe)</div>
+            <div id="shadow-host-6" class="shadow-host"></div>
+        </div>
+        
+        <!-- Set 7: Regular DOM -->
+        <div class="set regular-dom">
+            <div class="set-title">Set 7 (Regular DOM)</div>
+            <label for="input-7">Street address:</label>
+            <input type="text" id="input-7" value="input-7">
+            <button>button-7</button>
+            <label for="textarea-7">Instructions:</label>
+            <textarea id="textarea-7">text-area-7</textarea>
+        </div>
+        
+        <!-- Set 8: 4-level nested shadow root -->
+        <div class="set shadow-dom">
+            <div class="set-title">Set 8 (4-level Nested Shadow Root)</div>
+            <div id="shadow-host-8" class="shadow-host"></div>
+        </div>
+        
+        <!-- Set 9: 2-level nested shadow root containing iframe -->
+        <div class="set shadow-dom">
+            <div class="set-title">Set 9 (2-level Nested Shadow Root - Contains Iframe)</div>
+            <div id="shadow-host-9" class="shadow-host"></div>
+        </div>
+        
+        <!-- Set 10: 5-level nested shadow root -->
+        <div class="set shadow-dom">
+            <div class="set-title">Set 10 (5-level Nested Shadow Root)</div>
+            <div id="shadow-host-10" class="shadow-host"></div>
+        </div>
+    </div>
+
+    <script>
+        // Set 2: 1-level shadow root
+        const shadowHost2 = document.getElementById('shadow-host-2');
+        const shadowRoot2 = shadowHost2.attachShadow({ mode: 'open' });
+        shadowRoot2.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+                label {
+                    display: block;
+                    margin: 5px 0 2px 0;
+                    font-weight: 500;
+                    color: #333;
+                    font-size: 14px;
+                }
+            </style>
+            <label for="input-shadow-2">Phone number:</label>
+            <input type="text" id="input-shadow-2" value="input-shadow-2">
+            <button>button-shadow-2</button>
+            <label for="textarea-shadow-2">Comments:</label>
+            <textarea id="textarea-shadow-2">text-area-shadow-2</textarea>
+        `;
+        
+        // Set 4: 2-level nested shadow root
+        const shadowHost4 = document.getElementById('shadow-host-4');
+        const shadowRoot4 = shadowHost4.attachShadow({ mode: 'open' });
+        shadowRoot4.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+            </style>
+            <div id="nested-shadow-host-4"></div>
+        `;
+        
+        const nestedShadowHost4 = shadowRoot4.getElementById('nested-shadow-host-4');
+        const nestedShadowRoot4 = nestedShadowHost4.attachShadow({ mode: 'open' });
+        nestedShadowRoot4.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+                label {
+                    display: block;
+                    margin: 5px 0 2px 0;
+                    font-weight: 500;
+                    color: #333;
+                    font-size: 14px;
+                }
+            </style>
+            <label for="input-shadow-4">Employee ID:</label>
+            <input type="text" id="input-shadow-4" value="input-shadow-4">
+            <button>button-shadow-4</button>
+            <label for="textarea-shadow-4">Notes:</label>
+            <textarea id="textarea-shadow-4">text-area-shadow-4</textarea>
+        `;
+        
+        // Set 6: Shadow root (open) containing iframe
+        const shadowHost6 = document.getElementById('shadow-host-6');
+        const shadowRoot6 = shadowHost6.attachShadow({ mode: 'open' });
+        shadowRoot6.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+                iframe {
+                    width: 100%;
+                    height: 200px;
+                    border: 2px solid #FF9800;
+                    border-radius: 4px;
+                    margin: 10px 0;
+                }
+            </style>
+            <iframe id="iframe-set6" src="iframe_set6.html"></iframe>
+        `;
+        
+        // Set 8: 4-level nested shadow root
+        const shadowHost8 = document.getElementById('shadow-host-8');
+        const shadowRoot8 = shadowHost8.attachShadow({ mode: 'open' });
+        shadowRoot8.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+            </style>
+            <div id="nested-shadow-host-8-level1"></div>
+        `;
+        
+        const nestedShadowHost8Level1 = shadowRoot8.getElementById('nested-shadow-host-8-level1');
+        const nestedShadowRoot8Level1 = nestedShadowHost8Level1.attachShadow({ mode: 'open' });
+        nestedShadowRoot8Level1.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+            </style>
+            <div id="nested-shadow-host-8-level2"></div>
+        `;
+        
+        const nestedShadowHost8Level2 = nestedShadowRoot8Level1.getElementById('nested-shadow-host-8-level2');
+        const nestedShadowRoot8Level2 = nestedShadowHost8Level2.attachShadow({ mode: 'open' });
+        nestedShadowRoot8Level2.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+            </style>
+            <div id="nested-shadow-host-8-level3"></div>
+        `;
+        
+        const nestedShadowHost8Level3 = nestedShadowRoot8Level2.getElementById('nested-shadow-host-8-level3');
+        const nestedShadowRoot8Level3 = nestedShadowHost8Level3.attachShadow({ mode: 'open' });
+        nestedShadowRoot8Level3.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+                label {
+                    display: block;
+                    margin: 5px 0 2px 0;
+                    font-weight: 500;
+                    color: #333;
+                    font-size: 14px;
+                }
+            </style>
+            <label for="input-shadow-8">City name:</label>
+            <input type="text" id="input-shadow-8" value="input-shadow-8">
+            <button>button-shadow-8</button>
+            <label for="textarea-shadow-8">Details:</label>
+            <textarea id="textarea-shadow-8">text-area-shadow-8</textarea>
+        `;
+        
+        // Set 9: 2-level nested shadow root containing iframe
+        const shadowHost9 = document.getElementById('shadow-host-9');
+        const shadowRoot9 = shadowHost9.attachShadow({ mode: 'open' });
+        shadowRoot9.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+                iframe {
+                    width: 100%;
+                    height: 200px;
+                    border: 2px solid #FF9800;
+                    border-radius: 4px;
+                    margin: 10px 0;
+                }
+            </style>
+            <div id="nested-shadow-host-9-level1"></div>
+        `;
+        
+        const nestedShadowHost9Level1 = shadowRoot9.getElementById('nested-shadow-host-9-level1');
+        const nestedShadowRoot9Level1 = nestedShadowHost9Level1.attachShadow({ mode: 'open' });
+        nestedShadowRoot9Level1.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+                iframe {
+                    width: 100%;
+                    height: 200px;
+                    border: 2px solid #FF9800;
+                    border-radius: 4px;
+                    margin: 10px 0;
+                }
+            </style>
+            <iframe id="iframe-set9" src="iframe_set9.html"></iframe>
+        `;
+        
+        // Set 10: 5-level nested shadow root
+        const shadowHost10 = document.getElementById('shadow-host-10');
+        const shadowRoot10 = shadowHost10.attachShadow({ mode: 'open' });
+        shadowRoot10.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+            </style>
+            <div id="nested-shadow-host-10-level1"></div>
+        `;
+        
+        const nestedShadowHost10Level1 = shadowRoot10.getElementById('nested-shadow-host-10-level1');
+        const nestedShadowRoot10Level1 = nestedShadowHost10Level1.attachShadow({ mode: 'open' });
+        nestedShadowRoot10Level1.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+            </style>
+            <div id="nested-shadow-host-10-level2"></div>
+        `;
+        
+        const nestedShadowHost10Level2 = nestedShadowRoot10Level1.getElementById('nested-shadow-host-10-level2');
+        const nestedShadowRoot10Level2 = nestedShadowHost10Level2.attachShadow({ mode: 'open' });
+        nestedShadowRoot10Level2.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+            </style>
+            <div id="nested-shadow-host-10-level3"></div>
+        `;
+        
+        const nestedShadowHost10Level3 = nestedShadowRoot10Level2.getElementById('nested-shadow-host-10-level3');
+        const nestedShadowRoot10Level3 = nestedShadowHost10Level3.attachShadow({ mode: 'open' });
+        nestedShadowRoot10Level3.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+            </style>
+            <div id="nested-shadow-host-10-level4"></div>
+        `;
+        
+        const nestedShadowHost10Level4 = nestedShadowRoot10Level3.getElementById('nested-shadow-host-10-level4');
+        const nestedShadowRoot10Level4 = nestedShadowHost10Level4.attachShadow({ mode: 'open' });
+        nestedShadowRoot10Level4.innerHTML = `
+            <style>
+                input, button, textarea {
+                    padding: 8px 12px;
+                    margin: 5px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: block;
+                }
+                button {
+                    background-color: #2196F3;
+                    color: white;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #1976D2;
+                }
+                textarea {
+                    width: 300px;
+                    min-height: 60px;
+                }
+                label {
+                    display: block;
+                    margin: 5px 0 2px 0;
+                    font-weight: 500;
+                    color: #333;
+                    font-size: 14px;
+                }
+            </style>
+            <label for="input-shadow-10">Country name:</label>
+            <input type="text" id="input-shadow-10" value="input-shadow-10">
+            <button>button-shadow-10</button>
+            <label for="textarea-shadow-10">Other notes:</label>
+            <textarea id="textarea-shadow-10">text-area-shadow-10</textarea>
+        `;
+    </script>
+</body>
+</html>
+

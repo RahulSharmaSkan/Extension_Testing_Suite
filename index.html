@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Scenarios Testing Suite - Landing Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .scenarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .scenario-card {
+            background: linear-gradient(135deg, #1a2332 0%, #16202d 100%);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .scenario-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+            border-color: #00d4ff;
+        }
+
+        .scenario-card h2 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .scenario-card .icon {
+            font-size: 1.2em;
+        }
+
+        .scenario-card .description {
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1em;
+        }
+
+        .scenario-card .scenarios-list {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+
+        .scenario-card .scenarios-list li {
+            margin: 8px 0;
+            color: #c0c0c0;
+            line-height: 1.5;
+        }
+
+        .scenario-card .scenarios-list li::marker {
+            color: #00d4ff;
+        }
+
+        .btn-container {
+            margin-top: 25px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #0099ff 0%, #00d4ff 100%);
+            color: #0a0e27;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1em;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+            background: linear-gradient(135deg, #00b8d4 0%, #00e5ff 100%);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .badge-primary {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .badge-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-warning {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .info-section {
+            background: linear-gradient(135deg, #1a2332 0%, #16202d 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .info-section h3 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .info-section p {
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .info-section ul {
+            margin-left: 20px;
+            color: #c0c0c0;
+            line-height: 1.8;
+        }
+
+        .info-section ul li {
+            margin: 8px 0;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 20px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .scenarios-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .scenario-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧪 Web Scenarios Testing Suite</h1>
+            <p>Comprehensive test scenarios for iframes, Shadow DOM, postMessage, and cross-origin security testing</p>
+        </header>
+
+        <div class="scenarios-grid">
+            <!-- Nested Iframes Scenarios -->
+            <div class="scenario-card">
+                <h2>
+                    <span class="icon">🔄</span>
+                    Nested Iframes Scenarios
+                </h2>
+                <p class="description">
+                    Test various combinations of nested iframes with different origin configurations. Explore same-origin and cross-origin iframe nesting patterns up to 3 levels deep.
+                </p>
+                <ul class="scenarios-list">
+                    <li><strong>Same Origin → Cross Origin → Cross Origin</strong> - Demonstrates origin transitions</li>
+                    <li><strong>Cross Origin → Same Origin → Cross Origin</strong> - Security limitation scenarios</li>
+                    <li><strong>Triple Cross-Origin Nesting</strong> - Multiple cross-origin levels</li>
+                    <li><strong>Triple Same-Origin Nesting</strong> - Full DOM access scenarios</li>
+                </ul>
+                <div class="btn-container">
+                    <a href="nested_iframes_scenarios/main.html" class="btn-primary">
+                        Open Nested Iframes Scenarios →
+                    </a>
+                </div>
+            </div>
+
+            <!-- PostMessage Issues Scenarios -->
+            <div class="scenario-card">
+                <h2>
+                    <span class="icon">📨</span>
+                    PostMessage Security Scenarios
+                </h2>
+                <p class="description">
+                    Test postMessage communication patterns and security validation mechanisms. Includes popup modal scenarios with iframe content and message format validation.
+                </p>
+                <ul class="scenarios-list">
+                    <li><strong>Popup Modal with Iframe</strong> - Modal containing iframe content</li>
+                    <li><strong>PostMessage Validation</strong> - Security mechanism testing</li>
+                    <li><strong>Cross-Origin Iframe Communication</strong> - Message passing between origins</li>
+                    <li><strong>Message Format Validation</strong> - Security pattern matching</li>
+                </ul>
+                <div class="btn-container">
+                    <a href="page_with_post_message_issues/bofa_test.html" class="btn-primary">
+                        Open PostMessage Scenarios →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Shadow DOM and Iframes Scenarios -->
+            <div class="scenario-card">
+                <h2>
+                    <span class="icon">🌳</span>
+                    Shadow DOM & Iframes
+                </h2>
+                <p class="description">
+                    Test Shadow DOM elements combined with iframes. Includes nested shadow roots, open shadow DOM, and iframes embedded within shadow DOM contexts.
+                </p>
+                <ul class="scenarios-list">
+                    <li><strong>Regular DOM Elements</strong> - Baseline scenarios</li>
+                    <li><strong>1-Level Shadow Root</strong> - Single shadow DOM level</li>
+                    <li><strong>Nested Shadow Roots</strong> - 2, 4, and 5-level nesting</li>
+                    <li><strong>Shadow DOM with Iframes</strong> - Iframes inside shadow roots</li>
+                </ul>
+                <div class="btn-container">
+                    <a href="page_with_shadow_roots_and_iframes/main.html" class="btn-primary">
+                        Open Shadow DOM Scenarios →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>📋 About This Testing Suite</h3>
+            <p>
+                This testing suite provides comprehensive scenarios for testing web automation tools, security scanners, 
+                browser extensions, and web scraping frameworks. Each scenario focuses on different aspects of web security 
+                and DOM traversal challenges.
+            </p>
+            <h3 style="margin-top: 25px; margin-bottom: 15px;">🎯 Testing Focus Areas:</h3>
+            <ul>
+                <li><strong>Cross-Origin Security:</strong> Same-origin vs cross-origin iframe behavior and restrictions</li>
+                <li><strong>Nested Contexts:</strong> Multi-level iframe nesting (up to 3 levels deep)</li>
+                <li><strong>PostMessage Security:</strong> Message format validation and security mechanisms</li>
+                <li><strong>Shadow DOM Isolation:</strong> Shadow DOM elements with embedded iframes</li>
+                <li><strong>DOM Access:</strong> Testing what can be accessed in different security contexts</li>
+                <li><strong>Communication Patterns:</strong> postMessage API usage and validation</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Web Scenarios Testing Suite | Compatible with GitHub Pages</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Use these scenarios to test automation tools, security scanners, and browser extensions</p>
+        </footer>
+    </div>
+</body>
+</html>
+

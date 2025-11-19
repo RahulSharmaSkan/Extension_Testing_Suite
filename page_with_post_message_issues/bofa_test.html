@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank of America Test Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #1a2332 0%, #16202d 100%);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.1);
+            padding: 40px;
+            border: 2px solid rgba(0, 212, 255, 0.2);
+        }
+
+        h1 {
+            color: #00d4ff;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: #00d4ff;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #00d4ff;
+            padding-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #b0b0b0;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        input[type="password"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            background: #0f1419;
+            color: #e0e0e0;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .open-popup-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #0099ff 0%, #00d4ff 100%);
+            color: #0a0e27;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .open-popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+            background: linear-gradient(135deg, #00b8d4 0%, #00e5ff 100%);
+        }
+
+        .open-popup-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Popup Modal Styles */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background: linear-gradient(135deg, #1a2332 0%, #16202d 100%);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.3);
+            animation: slideUp 0.3s ease;
+            overflow: hidden;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .popup-header {
+            background: linear-gradient(135deg, #0099ff 0%, #00d4ff 100%);
+            color: #0a0e27;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .popup-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .popup-body {
+            height: calc(85vh - 80px);
+            overflow: hidden;
+        }
+
+        .popup-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bank of America - Account Application</h1>
+
+        <form id="mainForm">
+            <!-- Personal Information Section -->
+            <div class="form-section">
+                <h2>Personal Information</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Date of Birth *</label>
+                        <input type="date" id="dob" name="dob" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ssn">Social Security Number *</label>
+                    <input type="password" id="ssn" name="ssn" placeholder="XXX-XX-XXXX" required>
+                </div>
+            </div>
+
+            <!-- Address Information Section -->
+            <div class="form-section">
+                <h2>Address Information</h2>
+                <div class="form-group">
+                    <label for="address">Street Address *</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City *</label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State *</label>
+                        <select id="state" name="state" required>
+                            <option value="">Select State</option>
+                            <option value="CA">California</option>
+                            <option value="NY">New York</option>
+                            <option value="TX">Texas</option>
+                            <option value="FL">Florida</option>
+                            <option value="IL">Illinois</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="OH">Ohio</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="zipcode">ZIP Code *</label>
+                    <input type="text" id="zipcode" name="zipcode" pattern="[0-9]{5}" placeholder="12345" required>
+                </div>
+            </div>
+
+            <!-- Account Type Section -->
+            <div class="form-section">
+                <h2>Account Type</h2>
+                <div class="form-group">
+                    <label>Select Account Type *</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="checking" name="accountType" value="checking" required>
+                            <label for="checking">Checking Account</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="savings" name="accountType" value="savings">
+                            <label for="savings">Savings Account</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="both" name="accountType" value="both">
+                            <label for="both">Both Checking & Savings</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="initialDeposit">Initial Deposit Amount *</label>
+                    <input type="number" id="initialDeposit" name="initialDeposit" min="25" placeholder="$25 minimum" required>
+                </div>
+            </div>
+
+            <!-- Employment Information Section -->
+            <div class="form-section">
+                <h2>Employment Information</h2>
+                <div class="form-group">
+                    <label for="employer">Employer Name</label>
+                    <input type="text" id="employer" name="employer">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="occupation">Occupation</label>
+                        <input type="text" id="occupation" name="occupation">
+                    </div>
+                    <div class="form-group">
+                        <label for="annualIncome">Annual Income</label>
+                        <select id="annualIncome" name="annualIncome">
+                            <option value="">Select Range</option>
+                            <option value="0-25k">$0 - $25,000</option>
+                            <option value="25k-50k">$25,000 - $50,000</option>
+                            <option value="50k-75k">$50,000 - $75,000</option>
+                            <option value="75k-100k">$75,000 - $100,000</option>
+                            <option value="100k+">$100,000+</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Services Section -->
+            <div class="form-section">
+                <h2>Additional Services</h2>
+                <div class="form-group">
+                    <label>Select Additional Services</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="debitCard" name="services" value="debitCard">
+                            <label for="debitCard">Debit Card</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="onlineBanking" name="services" value="onlineBanking">
+                            <label for="onlineBanking">Online Banking</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="mobileBanking" name="services" value="mobileBanking">
+                            <label for="mobileBanking">Mobile Banking App</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="paperless" name="services" value="paperless">
+                            <label for="paperless">Paperless Statements</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="overdraft" name="services" value="overdraft">
+                            <label for="overdraft">Overdraft Protection</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Notes Section -->
+            <div class="form-section">
+                <h2>Additional Notes</h2>
+                <div class="form-group">
+                    <label for="notes">Comments or Special Requests</label>
+                    <textarea id="notes" name="notes" placeholder="Enter any additional information..."></textarea>
+                </div>
+            </div>
+
+            <!-- Open Popup Button -->
+            <button type="button" class="open-popup-btn" onclick="openPopup()">
+                Open Additional Information Form
+            </button>
+        </form>
+    </div>
+
+    <!-- Popup Modal -->
+    <div id="popupOverlay" class="popup-overlay">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2>Additional Information</h2>
+                <button class="close-btn" onclick="closePopup()">&times;</button>
+            </div>
+            <div class="popup-body">
+                <iframe id="popupIframe" class="popup-iframe" src="about:blank"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- <iframe style="width: 80vw; height: 100vh;" src="https://www.educosys.com" frameborder="0"></iframe> -->
+
+    <script src="bofa_main.js"></script>
+</body>
+</html>
