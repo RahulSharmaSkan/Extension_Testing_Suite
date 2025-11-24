@@ -54,6 +54,24 @@
             background: #0f1419;
         }
         
+        .iframe-container.scenario-1 {
+            height: 500px;
+            width: 90%;
+            margin: 0 auto;
+        }
+        
+        .iframe-container.scenario-3 {
+            height: 650px;
+            width: 95%;
+            margin: 0 auto;
+        }
+        
+        .iframe-container.scenario-4 {
+            height: 600px;
+            width: 85%;
+            margin: 0 auto;
+        }
+        
         .iframe-container iframe {
             width: 100%;
             height: 100%;
@@ -185,7 +203,7 @@
                 <p>This demonstrates a same-origin page embedding a cross-origin iframe, which then embeds another cross-origin iframe.</p>
             </div>
             
-            <div class="iframe-container">
+            <div class="iframe-container scenario-1">
                 <iframe 
                     src="level1-same-to-cross.html"
                     title="Same Origin Level 1"
@@ -221,7 +239,7 @@
                 <p>This demonstrates three levels of cross-origin iframe nesting, each from different domains.</p>
             </div>
             
-            <div class="iframe-container">
+            <div class="iframe-container scenario-3">
                 <iframe 
                     src="data:text/html;charset=utf-8,%3C%21DOCTYPE%20html%3E%0A%3Chtml%20lang%3D%22en%22%3E%0A%3Chead%3E%0A%20%20%20%20%3Cmeta%20charset%3D%22UTF-8%22%3E%0A%20%20%20%20%3Cmeta%20name%3D%22viewport%22%20content%3D%22width%3Ddevice-width%2C%20initial-scale%3D1.0%22%3E%0A%20%20%20%20%3Ctitle%3ETriple%20Cross-Origin%20Level%201%3C%2Ftitle%3E%0A%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20%20%20body%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-family%3A%20Arial%2C%20sans-serif%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin%3A%2010px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20linear-gradient%28135deg%2C%20%23667eea%200%25%2C%20%23764ba2%20100%25%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20white%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20min-height%3A%20calc%28100vh%20-%2020px%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.header%20%7B%20text-align%3A%20center%3B%20margin-bottom%3A%2015px%3B%20%7D%0A%20%20%20%20%20%20%20%20.level-container%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20background-color%3A%20rgba%28255%2C%20255%2C%20255%2C%200.1%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-radius%3A%208px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20padding%3A%2010px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border%3A%202px%20solid%20rgba%28255%2C%20255%2C%20255%2C%200.3%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.nested-iframe%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20height%3A%20400px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border%3A%203px%20solid%20%23ff6b6b%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-radius%3A%205px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%3C%2Fstyle%3E%0A%3C%2Fhead%3E%0A%3Cbody%3E%0A%20%20%20%20%3Cdiv%20class%3D%22header%22%3E%0A%20%20%20%20%20%20%20%20%3Ch1%3E%F0%9F%9A%80%20Cross-Origin%20Level%201%3C%2Fh1%3E%0A%20%20%20%20%20%20%20%20%3Cp%3EFirst%20level%20of%20triple%20cross-origin%20nesting%3C%2Fp%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%0A%20%20%20%20%3Cdiv%20class%3D%22level-container%22%3E%0A%20%20%20%20%20%20%20%20%3Ch2%3E%F0%9F%94%97%20Loading%20Level%202%3C%2Fh2%3E%0A%20%20%20%20%20%20%20%20%3Ciframe%20%0A%20%20%20%20%20%20%20%20%20%20%20%20class%3D%22nested-iframe%22%0A%20%20%20%20%20%20%20%20%20%20%20%20src%3D%22data%3Atext%2Fhtml%3Bcharset%3Dutf-8%2C%253C%2521DOCTYPE%2520html%253E%250A%253Chtml%253E%250A%253Chead%253E%250A%2520%2520%2520%2520%253Ctitle%253ELevel%25202%253C%252Ftitle%253E%250A%2520%2520%2520%2520%253Cstyle%253E%250A%2520%2520%2520%2520%2520%2520%2520%2520body%2520%257B%2520background%253A%2520linear-gradient%2528135deg%252C%2520%2523ff6b6b%25200%2525%252C%2520%2523ee5a24%2520100%2525%2529%253B%2520color%253A%2520white%253B%2520padding%253A%252010px%253B%2520font-family%253A%2520Arial%253B%2520%257D%250A%2520%2520%2520%2520%2520%2520%2520%2520.container%2520%257B%2520text-align%253A%2520center%253B%2520%257D%250A%2520%2520%2520%2520%2520%2520%2520%2520.final-iframe%2520%257B%2520width%253A%2520100%2525%253B%2520height%253A%2520250px%253B%2520border%253A%25203px%2520solid%2520%252354a3ff%253B%2520border-radius%253A%25205px%253B%2520%257D%250A%2520%2520%2520%2520%253C%252Fstyle%253E%250A%253C%252Fhead%253E%250A%253Cbody%253E%250A%2520%2520%2520%2520%253Cdiv%2520class%253D%2522container%2522%253E%250A%2520%2520%2520%2520%2520%2520%2520%2520%253Ch1%253E%25F0%259F%2594%25A5%2520Cross-Origin%2520Level%25202%253C%252Fh1%253E%250A%2520%2520%2520%2520%2520%2520%2520%2520%253Cp%253ESecond%2520level%2520-%2520loading%2520final%2520cross-origin%2520iframe%253A%253C%252Fp%253E%250A%2520%2520%2520%2520%2520%2520%2520%2520%253Ciframe%2520class%253D%2522final-iframe%2522%2520src%253D%2522https%253A%252F%252Fhttpbin.org%252Fhtml%2522%2520title%253D%2522Level%25203%2520Final%2522%253E%253C%252Fiframe%253E%250A%2520%2520%2520%2520%253C%252Fdiv%253E%250A%2520%2520%2520%2520%253Cscript%253E%250A%2520%2520%2520%2520%2520%2520%2520%2520console.log%2528%2527Cross-Origin%2520Level%25202%2520loaded%2527%2529%253B%250A%2520%2520%2520%2520%253C%252Fscript%253E%250A%253C%252Fbody%253E%250A%253C%252Fhtml%253E%22%0A%20%20%20%20%20%20%20%20%20%20%20%20title%3D%22Cross-Origin%20Level%202%22%0A%20%20%20%20%20%20%20%20%20%20%20%20sandbox%3D%22allow-same-origin%20allow-scripts%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cp%3ELevel%202%20Fallback%3C%2Fp%3E%0A%20%20%20%20%20%20%20%20%3C%2Fiframe%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%0A%20%20%20%20%3Cscript%3E%0A%20%20%20%20%20%20%20%20console.log%28%27Triple%20Cross-Origin%20Level%201%20loaded%27%29%3B%0A%20%20%20%20%3C%2Fscript%3E%0A%3C%2Fbody%3E%0A%3C%2Fhtml%3E"
                     title="Triple Cross-Origin Level 1"
@@ -257,7 +275,7 @@
                 <p>This demonstrates three levels of same-origin iframe nesting, all from the same domain.</p>
             </div>
             
-            <div class="iframe-container">
+            <div class="iframe-container scenario-4">
                 <iframe 
                     src="level1-same-origin.html"
                     title="Same Origin Level 1"
