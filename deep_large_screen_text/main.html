@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep &amp; Large Screen Text Generator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .back-link {
+            display: inline-block;
+            color: #00d4ff;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        header { text-align: center; margin-bottom: 40px; padding: 20px; }
+        header h1 { font-size: 2.4em; margin-bottom: 12px; }
+        header p { color: #b0b0b0; font-size: 1.1em; max-width: 700px; margin: 0 auto; }
+
+        .card {
+            background: linear-gradient(135deg, #1a2332 0%, #16202d 100%);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .control { margin-bottom: 30px; }
+
+        .control label {
+            display: block;
+            color: #00d4ff;
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+        }
+
+        .control-row { display: flex; align-items: center; gap: 15px; }
+
+        input[type="range"] { flex: 1; accent-color: #00d4ff; height: 6px; }
+
+        input[type="number"] {
+            width: 110px;
+            padding: 8px 10px;
+            background: #0f1419;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 1em;
+        }
+
+        .control .hint { color: #8a8a8a; font-size: 0.85em; margin-top: 8px; }
+
+        .btn-group { display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap; }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .btn-primary { background: linear-gradient(135deg, #0099ff 0%, #00d4ff 100%); color: #0a0e27; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5); }
+
+        .btn-secondary { background: linear-gradient(135deg, #2e7d32 0%, #43a047 100%); color: #fff; }
+        .btn-secondary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(67, 160, 71, 0.5); }
+
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .status {
+            margin-top: 25px;
+            padding: 15px 18px;
+            border-radius: 8px;
+            background: #0f1419;
+            border: 1px solid rgba(0, 212, 255, 0.25);
+            color: #c0c0c0;
+            font-size: 0.95em;
+            line-height: 1.5;
+            min-height: 24px;
+            word-break: break-word;
+        }
+        .status.warn { border-color: #f57c00; color: #ffb74d; }
+        .status.ok { border-color: #43a047; color: #a5d6a7; }
+        .status.err { border-color: #e53935; color: #ef9a9a; }
+
+        .info { margin-top: 30px; color: #9a9a9a; font-size: 0.9em; line-height: 1.7; }
+        .info strong { color: #b0b0b0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Testing Suite</a>
+
+        <header>
+            <h1>🌲 Deep &amp; Large Screen Text</h1>
+            <p>Generate a page with a controllable DOM nesting depth and total size to exercise deep / large <code>screen_text</code> capture (e.g. JSON recursion-depth limits).</p>
+        </header>
+
+        <div class="card">
+            <div class="control">
+                <label for="depthRange">Maximum DOM tree depth</label>
+                <div class="control-row">
+                    <input type="range" id="depthRange" min="1" max="10000" value="1000" step="1">
+                    <input type="number" id="depthInput" min="1" max="10000" value="1000">
+                </div>
+                <div class="hint">Number of nested elements from root to deepest leaf (1 – 10,000).</div>
+            </div>
+
+            <div class="control">
+                <label for="sizeRange">Overall screen text size (MB)</label>
+                <div class="control-row">
+                    <input type="range" id="sizeRange" min="1" max="100" value="5" step="1">
+                    <input type="number" id="sizeInput" min="1" max="100" value="5">
+                </div>
+                <div class="hint">Approximate total rendered HTML/DOM size (1 – 100 MB). Depth sets a floor on size.</div>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" id="generateBtn" class="btn btn-primary">⚙️ Generate page</button>
+                <button type="button" id="goBtn" class="btn btn-secondary" disabled>↗ Go to page</button>
+            </div>
+
+            <div id="status" class="status">Set the depth and size, then click <strong>Generate page</strong>.</div>
+        </div>
+
+        <div class="info">
+            <p><strong>How it works:</strong> "Generate page" builds a real same-origin URL (<code>generated.html?depth=&hellip;&amp;size=&hellip;</code>). "Go to page" opens that page in a new tab, where a deep "spine" of nested elements is built to the chosen depth and padded with content blocks until the target size is reached. Because it is a real <code>https</code> page (not a <code>blob:</code> URL), browser extensions capture it normally.</p>
+            <p style="margin-top: 10px;"><strong>Warning:</strong> very high depth or size values (e.g. &gt; 3,000 depth or &gt; 25 MB) can freeze or crash the browser tab. You will be asked to confirm before generating.</p>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var DEPTH_MIN = 1, DEPTH_MAX = 10000;
+            var SIZE_MIN = 1, SIZE_MAX = 100;
+            var DEPTH_WARN = 3000, SIZE_WARN = 25;
+
+            var depthRange = document.getElementById('depthRange');
+            var depthInput = document.getElementById('depthInput');
+            var sizeRange = document.getElementById('sizeRange');
+            var sizeInput = document.getElementById('sizeInput');
+            var generateBtn = document.getElementById('generateBtn');
+            var goBtn = document.getElementById('goBtn');
+            var statusEl = document.getElementById('status');
+
+            var GENERATED_PAGE = 'generated.html';
+            var currentUrl = null;
+
+            function clamp(value, min, max) {
+                var n = parseInt(value, 10);
+                if (isNaN(n)) { n = min; }
+                if (n < min) { n = min; }
+                if (n > max) { n = max; }
+                return n;
+            }
+
+            function setStatus(message, kind) {
+                statusEl.className = 'status' + (kind ? ' ' + kind : '');
+                statusEl.innerHTML = message;
+            }
+
+            function syncFromRange(range, input) {
+                input.value = range.value;
+            }
+
+            function syncFromInput(input, range, min, max) {
+                var n = clamp(input.value, min, max);
+                input.value = n;
+                range.value = n;
+            }
+
+            depthRange.addEventListener('input', function () { syncFromRange(depthRange, depthInput); });
+            sizeRange.addEventListener('input', function () { syncFromRange(sizeRange, sizeInput); });
+            depthInput.addEventListener('change', function () { syncFromInput(depthInput, depthRange, DEPTH_MIN, DEPTH_MAX); });
+            sizeInput.addEventListener('change', function () { syncFromInput(sizeInput, sizeRange, SIZE_MIN, SIZE_MAX); });
+
+            generateBtn.addEventListener('click', function () {
+                var depth = clamp(depthInput.value, DEPTH_MIN, DEPTH_MAX);
+                var sizeMb = clamp(sizeInput.value, SIZE_MIN, SIZE_MAX);
+                depthInput.value = depth; depthRange.value = depth;
+                sizeInput.value = sizeMb; sizeRange.value = sizeMb;
+
+                var isExtreme = depth > DEPTH_WARN || sizeMb > SIZE_WARN;
+                if (isExtreme) {
+                    var proceed = window.confirm(
+                        'High values selected (depth ' + depth + ', size ' + sizeMb + ' MB).\n\n' +
+                        'Opening this page may freeze or crash the browser tab.\n\nContinue?'
+                    );
+                    if (!proceed) {
+                        setStatus('Generation cancelled.', 'warn');
+                        return;
+                    }
+                }
+
+                currentUrl = GENERATED_PAGE + '?depth=' + depth + '&size=' + sizeMb;
+                var absoluteUrl = new URL(currentUrl, window.location.href).href;
+                setStatus('✅ Page ready — depth: <strong>' + depth + '</strong>, target size: <strong>' + sizeMb +
+                    ' MB</strong>.<br>URL: <code>' + absoluteUrl + '</code><br>Click <strong>Go to page</strong> to open it (built on load).', 'ok');
+                goBtn.disabled = false;
+            });
+
+            goBtn.addEventListener('click', function () {
+                if (currentUrl) { window.open(currentUrl, '_blank'); }
+            });
+        })();
+    </script>
+</body>
+</html>

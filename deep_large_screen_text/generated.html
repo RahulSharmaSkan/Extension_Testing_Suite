@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep / Large Test Page</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; }
+        #test-page-header {
+            padding: 12px 16px;
+            background: #0a0e27;
+            color: #00d4ff;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        #test-page-status { padding: 10px 16px; background: #f0f0f0; color: #333; font-size: 0.9em; }
+        .content-block { padding: 6px 16px; border-bottom: 1px solid #eee; }
+        .content-block h4 { margin: 0 0 4px; }
+        .content-block p { margin: 0 0 4px; color: #444; }
+        .leaf { font-weight: 600; color: #0099ff; }
+    </style>
+</head>
+<body>
+    <div id="test-page-header">🌲 Deep / Large Test Page</div>
+    <div id="test-page-status">Building page…</div>
+    <div id="content"></div>
+
+    <script>
+        (function () {
+            var BYTES_PER_MB = 1024 * 1024;
+            var DEPTH_MIN = 1, DEPTH_MAX = 10000;
+            var SIZE_MIN = 1, SIZE_MAX = 100;
+
+            function clamp(value, min, max) {
+                var n = parseInt(value, 10);
+                if (isNaN(n)) { n = min; }
+                if (n < min) { n = min; }
+                if (n > max) { n = max; }
+                return n;
+            }
+
+            function getParam(name) {
+                var params = new URLSearchParams(window.location.search);
+                return params.get(name);
+            }
+
+            function buildContentBlock(index) {
+                return '<div class="content-block" data-idx="' + index + '">' +
+                    '<h4 class="block-title">Section ' + index + '</h4>' +
+                    '<p class="block-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod ' +
+                    'tempor incididunt ut labore et dolore magna aliqua. Block reference ' + index + '.</p>' +
+                    '<span class="label">Field ' + index + '</span>' +
+                    '<span class="value">value-' + index + '</span>' +
+                    '</div>';
+            }
+
+            function buildBody(depth, targetBytes) {
+                var parts = [];
+                var length = 0;
+                function push(s) { parts.push(s); length += s.length; }
+
+                push('<div id="deep-spine">');
+                for (var i = 1; i <= depth; i++) {
+                    push('<div class="level-' + i + '" id="node-' + i + '" data-depth="' + i + '">');
+                }
+                push('<span class="leaf">Deepest node at level ' + depth + '</span>');
+                for (var j = 0; j < depth; j++) {
+                    push('</div>');
+                }
+                push('</div>');
+
+                push('<div id="size-padding">');
+                var blockIndex = 0;
+                while (length < targetBytes) {
+                    blockIndex++;
+                    push(buildContentBlock(blockIndex));
+                }
+                push('</div>');
+
+                return { html: parts.join(''), bytes: length };
+            }
+
+            var depth = clamp(getParam('depth'), DEPTH_MIN, DEPTH_MAX);
+            var sizeMb = clamp(getParam('size'), SIZE_MIN, SIZE_MAX);
+            document.title = 'Deep / Large Test Page (depth ' + depth + ', ' + sizeMb + ' MB)';
+
+            var statusEl = document.getElementById('test-page-status');
+            statusEl.textContent = 'Building page — target depth: ' + depth + ', target size: ' + sizeMb + ' MB…';
+
+            setTimeout(function () {
+                var result = buildBody(depth, sizeMb * BYTES_PER_MB);
+                document.getElementById('content').innerHTML = result.html;
+                var actualMb = (result.bytes / BYTES_PER_MB).toFixed(2);
+                statusEl.textContent = 'Depth: ' + depth + '  |  Size: ' + actualMb + ' MB (' +
+                    result.bytes.toLocaleString() + ' bytes)';
+            }, 30);
+        })();
+    </script>
+</body>
+</html>

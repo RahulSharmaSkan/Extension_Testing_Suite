@@ -1,6 +1,6 @@
 # Web Scenarios Testing Suite
 
-A comprehensive collection of web testing scenarios for iframes, Shadow DOM, postMessage, and cross-origin security testing.
+A comprehensive collection of web testing scenarios for iframes, Shadow DOM, postMessage, cross-origin security, and deep/large screen text testing.
 
 ## 🚀 Quick Start
 
@@ -50,11 +50,14 @@ All_Scenarios/
 │   ├── bofa_test.html
 │   ├── bofa_main.js
 │   └── bofa_iframe_content.html
-└── page_with_shadow_roots_and_iframes/ # Shadow DOM scenarios
-    ├── main.html
-    ├── iframe_set3.html
-    ├── iframe_set6.html
-    └── iframe_set9.html
+├── page_with_shadow_roots_and_iframes/ # Shadow DOM scenarios
+│   ├── main.html
+│   ├── iframe_set3.html
+│   ├── iframe_set6.html
+│   └── iframe_set9.html
+└── deep_large_screen_text/            # Deep & large screen text generator
+    ├── main.html                       # Generator UI (depth/size sliders)
+    └── generated.html                  # Self-building target page (reads ?depth=&size=)
 ```
 
 ## 🧪 Test Scenarios
@@ -86,6 +89,17 @@ Test Shadow DOM elements combined with iframes:
 
 **Access:** `page_with_shadow_roots_and_iframes/main.html`
 
+### 4. Deep & Large Screen Text
+Generate a page with a controllable DOM nesting depth and total size to test deep / large `screen_text` capture (e.g. JSON recursion-depth limits and large-payload handling):
+- Maximum DOM tree depth slider (1 – 10,000 levels)
+- Overall screen text size slider (1 – 100 MB)
+- "Generate page" builds a real same-origin URL: `generated.html?depth=…&size=…`
+- "Go to page" opens that real `https` page in a new tab; the deep spine (padded with content blocks to the target size) is built on load
+- Because it is a real page (not a `blob:` URL), browser extensions capture it normally
+- Confirmation prompt for extreme values (depth > 3,000 or size > 25 MB) that may freeze the browser
+
+**Access:** `deep_large_screen_text/main.html`
+
 ## 🎯 Testing Focus Areas
 
 - **Cross-Origin Security:** Same-origin vs cross-origin iframe behavior
@@ -93,6 +107,7 @@ Test Shadow DOM elements combined with iframes:
 - **PostMessage Security:** Message format validation
 - **Shadow DOM Isolation:** Shadow DOM with embedded iframes
 - **DOM Access:** Testing access in different security contexts
+- **Deep / Large DOM:** Configurable nesting depth and screen text size for recursion-depth and large-payload testing
 
 ## 🔧 Technical Details
 
