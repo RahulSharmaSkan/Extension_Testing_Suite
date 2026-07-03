@@ -92,11 +92,12 @@ Test Shadow DOM elements combined with iframes:
 ### 4. Deep & Large Screen Text
 Generate a page with a controllable DOM nesting depth and total size to test deep / large `screen_text` capture (e.g. JSON recursion-depth limits and large-payload handling):
 - Maximum DOM tree depth slider (1 – 10,000 levels)
-- Overall screen text size slider (1 – 100 MB)
-- "Generate page" builds a real same-origin URL: `generated.html?depth=…&size=…`
-- "Go to page" opens that real `https` page in a new tab; the deep spine (padded with content blocks to the target size) is built on load
+- Breadth slider (1 – 100 sibling nodes per level; 1 = a pure deep spine). Grows node count ≈ depth × breadth without changing nesting depth
+- Overall screen text size slider (1 – 100 MB), used as a fill-to target/floor (the depth × breadth skeleton is padded up to it; the actual size is reported)
+- "Generate page" builds a real same-origin URL: `generated.html?depth=…&breadth=…&size=…`
+- "Go to page" opens that real `https` page in a new tab; the spine + siblings + size padding are built on load
 - Because it is a real page (not a `blob:` URL), browser extensions capture it normally
-- Confirmation prompt for extreme values (depth > 3,000 or size > 25 MB) that may freeze the browser
+- Confirmation prompt for extreme values (depth > 3,000, size > 25 MB, or ~200,000+ skeleton nodes) that may freeze the browser
 
 **Access:** `deep_large_screen_text/main.html`
 

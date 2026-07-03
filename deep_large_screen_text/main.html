@@ -126,12 +126,21 @@
             </div>
 
             <div class="control">
+                <label for="breadthRange">Breadth (sibling nodes per level)</label>
+                <div class="control-row">
+                    <input type="range" id="breadthRange" min="1" max="100" value="5" step="1">
+                    <input type="number" id="breadthInput" min="1" max="100" value="5">
+                </div>
+                <div class="hint">Extra sibling leaf nodes added at each depth level (1 – 100). 1 = a pure deep spine. Node count grows ≈ depth × breadth (does not change nesting depth).</div>
+            </div>
+
+            <div class="control">
                 <label for="sizeRange">Overall screen text size (MB)</label>
                 <div class="control-row">
                     <input type="range" id="sizeRange" min="1" max="100" value="5" step="1">
                     <input type="number" id="sizeInput" min="1" max="100" value="5">
                 </div>
-                <div class="hint">Approximate total rendered HTML/DOM size (1 – 100 MB). Depth sets a floor on size.</div>
+                <div class="hint">Fill-to target for total rendered HTML/DOM size (1 – 100 MB). The depth × breadth skeleton is padded up to this size; if the skeleton is already larger, this is just a floor and the actual size is reported.</div>
             </div>
 
             <div class="btn-group">
@@ -139,11 +148,11 @@
                 <button type="button" id="goBtn" class="btn btn-secondary" disabled>↗ Go to page</button>
             </div>
 
-            <div id="status" class="status">Set the depth and size, then click <strong>Generate page</strong>.</div>
+            <div id="status" class="status">Set the depth, breadth and size, then click <strong>Generate page</strong>.</div>
         </div>
 
         <div class="info">
-            <p><strong>How it works:</strong> "Generate page" builds a real same-origin URL (<code>generated.html?depth=&hellip;&amp;size=&hellip;</code>). "Go to page" opens that page in a new tab, where a deep "spine" of nested elements is built to the chosen depth and padded with content blocks until the target size is reached. Because it is a real <code>https</code> page (not a <code>blob:</code> URL), browser extensions capture it normally.</p>
+            <p><strong>How it works:</strong> "Generate page" builds a real same-origin URL (<code>generated.html?depth=&hellip;&amp;breadth=&hellip;&amp;size=&hellip;</code>). "Go to page" opens that page in a new tab, where a "spine" of nested elements is built to the chosen depth, with <code>breadth</code> sibling nodes at each level, then padded with content blocks until the target size is reached. Because it is a real <code>https</code> page (not a <code>blob:</code> URL), browser extensions capture it normally.</p>
             <p style="margin-top: 10px;"><strong>Warning:</strong> very high depth or size values (e.g. &gt; 3,000 depth or &gt; 25 MB) can freeze or crash the browser tab. You will be asked to confirm before generating.</p>
         </div>
     </div>
@@ -151,11 +160,14 @@
     <script>
         (function () {
             var DEPTH_MIN = 1, DEPTH_MAX = 10000;
+            var BREADTH_MIN = 1, BREADTH_MAX = 100;
             var SIZE_MIN = 1, SIZE_MAX = 100;
-            var DEPTH_WARN = 3000, SIZE_WARN = 25;
+            var DEPTH_WARN = 3000, SIZE_WARN = 25, NODE_WARN = 200000;
 
             var depthRange = document.getElementById('depthRange');
             var depthInput = document.getElementById('depthInput');
+            var breadthRange = document.getElementById('breadthRange');
+            var breadthInput = document.getElementById('breadthInput');
             var sizeRange = document.getElementById('sizeRange');
             var sizeInput = document.getElementById('sizeInput');
             var generateBtn = document.getElementById('generateBtn');
@@ -189,20 +201,26 @@
             }
 
             depthRange.addEventListener('input', function () { syncFromRange(depthRange, depthInput); });
+            breadthRange.addEventListener('input', function () { syncFromRange(breadthRange, breadthInput); });
             sizeRange.addEventListener('input', function () { syncFromRange(sizeRange, sizeInput); });
             depthInput.addEventListener('change', function () { syncFromInput(depthInput, depthRange, DEPTH_MIN, DEPTH_MAX); });
+            breadthInput.addEventListener('change', function () { syncFromInput(breadthInput, breadthRange, BREADTH_MIN, BREADTH_MAX); });
             sizeInput.addEventListener('change', function () { syncFromInput(sizeInput, sizeRange, SIZE_MIN, SIZE_MAX); });
 
             generateBtn.addEventListener('click', function () {
                 var depth = clamp(depthInput.value, DEPTH_MIN, DEPTH_MAX);
+                var breadth = clamp(breadthInput.value, BREADTH_MIN, BREADTH_MAX);
                 var sizeMb = clamp(sizeInput.value, SIZE_MIN, SIZE_MAX);
                 depthInput.value = depth; depthRange.value = depth;
+                breadthInput.value = breadth; breadthRange.value = breadth;
                 sizeInput.value = sizeMb; sizeRange.value = sizeMb;
 
-                var isExtreme = depth > DEPTH_WARN || sizeMb > SIZE_WARN;
+                var estimatedNodes = depth * breadth;
+                var isExtreme = depth > DEPTH_WARN || sizeMb > SIZE_WARN || estimatedNodes > NODE_WARN;
                 if (isExtreme) {
                     var proceed = window.confirm(
-                        'High values selected (depth ' + depth + ', size ' + sizeMb + ' MB).\n\n' +
+                        'High values selected (depth ' + depth + ', breadth ' + breadth + ', size ' + sizeMb + ' MB; ' +
+                        '~' + estimatedNodes.toLocaleString() + ' skeleton nodes).\n\n' +
                         'Opening this page may freeze or crash the browser tab.\n\nContinue?'
                     );
                     if (!proceed) {
@@ -211,10 +229,11 @@
                     }
                 }
 
-                currentUrl = GENERATED_PAGE + '?depth=' + depth + '&size=' + sizeMb;
+                currentUrl = GENERATED_PAGE + '?depth=' + depth + '&breadth=' + breadth + '&size=' + sizeMb;
                 var absoluteUrl = new URL(currentUrl, window.location.href).href;
-                setStatus('✅ Page ready — depth: <strong>' + depth + '</strong>, target size: <strong>' + sizeMb +
-                    ' MB</strong>.<br>URL: <code>' + absoluteUrl + '</code><br>Click <strong>Go to page</strong> to open it (built on load).', 'ok');
+                setStatus('✅ Page ready — depth: <strong>' + depth + '</strong>, breadth: <strong>' + breadth +
+                    '</strong>, target size: <strong>' + sizeMb + ' MB</strong>.<br>URL: <code>' + absoluteUrl +
+                    '</code><br>Click <strong>Go to page</strong> to open it (built on load).', 'ok');
                 goBtn.disabled = false;
             });
 

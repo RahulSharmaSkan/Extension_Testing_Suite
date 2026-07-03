@@ -30,6 +30,7 @@
         (function () {
             var BYTES_PER_MB = 1024 * 1024;
             var DEPTH_MIN = 1, DEPTH_MAX = 10000;
+            var BREADTH_MIN = 1, BREADTH_MAX = 100;
             var SIZE_MIN = 1, SIZE_MAX = 100;
 
             function clamp(value, min, max) {
@@ -55,7 +56,12 @@
                     '</div>';
             }
 
-            function buildBody(depth, targetBytes) {
+            function buildSiblingLeaf(level, k) {
+                return '<div class="sibling level-' + level + '-sib" data-level="' + level + '" data-sib="' + k + '">' +
+                    '<span class="sib-text">sibling ' + level + '-' + k + '</span></div>';
+            }
+
+            function buildBody(depth, breadth, targetBytes) {
                 var parts = [];
                 var length = 0;
                 function push(s) { parts.push(s); length += s.length; }
@@ -65,8 +71,11 @@
                     push('<div class="level-' + i + '" id="node-' + i + '" data-depth="' + i + '">');
                 }
                 push('<span class="leaf">Deepest node at level ' + depth + '</span>');
-                for (var j = 0; j < depth; j++) {
+                for (var d = depth; d >= 1; d--) {
                     push('</div>');
+                    for (var k = 1; k < breadth; k++) {
+                        push(buildSiblingLeaf(d, k));
+                    }
                 }
                 push('</div>');
 
@@ -82,18 +91,20 @@
             }
 
             var depth = clamp(getParam('depth'), DEPTH_MIN, DEPTH_MAX);
+            var breadth = clamp(getParam('breadth'), BREADTH_MIN, BREADTH_MAX);
             var sizeMb = clamp(getParam('size'), SIZE_MIN, SIZE_MAX);
-            document.title = 'Deep / Large Test Page (depth ' + depth + ', ' + sizeMb + ' MB)';
+            document.title = 'Deep / Large Test Page (depth ' + depth + ', breadth ' + breadth + ', ' + sizeMb + ' MB)';
 
             var statusEl = document.getElementById('test-page-status');
-            statusEl.textContent = 'Building page — target depth: ' + depth + ', target size: ' + sizeMb + ' MB…';
+            statusEl.textContent = 'Building page — target depth: ' + depth + ', breadth: ' + breadth +
+                ', target size: ' + sizeMb + ' MB…';
 
             setTimeout(function () {
-                var result = buildBody(depth, sizeMb * BYTES_PER_MB);
+                var result = buildBody(depth, breadth, sizeMb * BYTES_PER_MB);
                 document.getElementById('content').innerHTML = result.html;
                 var actualMb = (result.bytes / BYTES_PER_MB).toFixed(2);
-                statusEl.textContent = 'Depth: ' + depth + '  |  Size: ' + actualMb + ' MB (' +
-                    result.bytes.toLocaleString() + ' bytes)';
+                statusEl.textContent = 'Depth: ' + depth + '  |  Breadth: ' + breadth + '  |  Size: ' + actualMb +
+                    ' MB (' + result.bytes.toLocaleString() + ' bytes)';
             }, 30);
         })();
     </script>
