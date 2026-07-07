@@ -242,5 +242,15 @@
             });
         })();
     </script>
+
+    <!-- Skan A/B harness contract: modest, non-blocking generate pass (stays under the confirm threshold). -->
+    <script>
+        window.__SKAN_TEST_PLAN__ = [
+            { selector: "#depthInput", action: "type", value: "50" },
+            { selector: "#breadthInput", action: "type", value: "3" },
+            { selector: "#sizeInput", action: "type", value: "2" },
+            { selector: "#generateBtn", action: "click" }
+        ];
+    </script>
 </body>
 </html>

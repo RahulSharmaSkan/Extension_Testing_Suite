@@ -686,6 +686,21 @@
             <textarea id="textarea-shadow-10">text-area-shadow-10</textarea>
         `;
     </script>
+
+    <!-- Skan A/B harness contract: deterministic interaction plan (regular DOM + nested open shadow roots). -->
+    <script>
+        window.__SKAN_TEST_PLAN__ = [
+            { selector: "#input-1", action: "type", value: "skan-1" },
+            { selector: "#textarea-1", action: "type", value: "note-1" },
+            { shadow: ["#shadow-host-2"], selector: "#input-shadow-2", action: "type", value: "skan-2" },
+            { shadow: ["#shadow-host-2"], selector: "button", action: "click" },
+            { selector: "#input-5", action: "type", value: "skan-5" },
+            { shadow: ["#shadow-host-4", "#nested-shadow-host-4"], selector: "#input-shadow-4", action: "type", value: "skan-4" },
+            { selector: "#input-7", action: "type", value: "skan-7" },
+            { shadow: ["#shadow-host-8", "#nested-shadow-host-8-level1", "#nested-shadow-host-8-level2", "#nested-shadow-host-8-level3"], selector: "#input-shadow-8", action: "type", value: "skan-8" },
+            { shadow: ["#shadow-host-10", "#nested-shadow-host-10-level1", "#nested-shadow-host-10-level2", "#nested-shadow-host-10-level3", "#nested-shadow-host-10-level4"], selector: "#input-shadow-10", action: "type", value: "skan-10" }
+        ];
+    </script>
 </body>
 </html>
 
