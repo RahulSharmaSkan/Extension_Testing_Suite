@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Gallery - Diverse Widgets</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 20px;
+               background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%); color: #e0e0e0; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { color: #00d4ff; text-align: center; }
+        .back-link { color: #00d4ff; text-decoration: none; }
+        .section { background: linear-gradient(135deg, #1a2332 0%, #16202d 100%); border: 2px solid rgba(0,212,255,0.2);
+                   border-radius: 12px; padding: 20px; margin: 18px 0; }
+        .section h2 { color: #00d4ff; margin-top: 0; font-size: 1.2em; border-bottom: 1px solid rgba(0,212,255,0.3); padding-bottom: 6px; }
+        label { display: block; margin: 10px 0 3px; color: #b0b0b0; font-size: 0.9em; }
+        input[type=text], input[type=email], input[type=search], input[type=tel], input[type=url],
+        input[type=number], input[type=password], input[type=date], input[type=time], select, textarea {
+            width: 100%; max-width: 360px; padding: 8px 10px; border: 1px solid rgba(0,212,255,0.3);
+            border-radius: 6px; background: #0f1419; color: #e0e0e0; font-size: 14px; }
+        textarea { min-height: 60px; }
+        .editable { max-width: 360px; min-height: 40px; padding: 8px 10px; border: 1px dashed rgba(0,212,255,0.5);
+                    border-radius: 6px; background: #0f1419; }
+        button, .btn { padding: 8px 16px; margin: 6px 6px 0 0; border: none; border-radius: 6px; cursor: pointer;
+                       background: linear-gradient(135deg, #0099ff 0%, #00d4ff 100%); color: #0a0e27; font-weight: 600; }
+        .btn-secondary { background: linear-gradient(135deg, #2e7d32 0%, #43a047 100%); color: #fff; }
+        a.gallery-link { color: #00d4ff; margin-right: 14px; }
+        .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+        .tab { background: #16202d; color: #b0b0b0; border: 1px solid rgba(0,212,255,0.3); }
+        .tab[aria-selected=true] { background: #00d4ff; color: #0a0e27; }
+        .panel { display: none; padding: 10px; border: 1px solid rgba(0,212,255,0.3); border-radius: 6px; }
+        .panel.active { display: block; }
+        .menu { list-style: none; padding: 6px; margin: 6px 0 0; border: 1px solid rgba(0,212,255,0.3);
+                border-radius: 6px; background: #16202d; display: none; max-width: 220px; }
+        .menu.open { display: block; }
+        .menu li { padding: 6px 10px; cursor: pointer; border-radius: 4px; }
+        .menu li:hover { background: rgba(0,212,255,0.15); }
+        .tree { list-style: none; padding-left: 14px; }
+        .tree li { padding: 3px 0; cursor: pointer; }
+        .tree li[aria-selected=true] { color: #00d4ff; font-weight: 600; }
+        .switch-wrap { display: flex; align-items: center; gap: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">&larr; Back to Testing Suite</a>
+        <h1>Control Gallery</h1>
+
+        <!-- Text-entry controls -->
+        <div class="section">
+            <h2>Text entry</h2>
+            <label for="cg-text">Text</label><input type="text" id="cg-text">
+            <label for="cg-email">Email</label><input type="email" id="cg-email">
+            <label for="cg-search">Search</label><input type="search" id="cg-search">
+            <label for="cg-tel">Tel</label><input type="tel" id="cg-tel">
+            <label for="cg-url">URL</label><input type="url" id="cg-url">
+            <label for="cg-number">Number</label><input type="number" id="cg-number" min="0" max="1000">
+            <label for="cg-password">Password</label><input type="password" id="cg-password">
+            <label for="cg-textarea">Textarea</label><textarea id="cg-textarea"></textarea>
+            <label for="cg-editable">Contenteditable</label>
+            <div class="editable" id="cg-editable" contenteditable="true">edit me</div>
+        </div>
+
+        <!-- Selection controls -->
+        <div class="section">
+            <h2>Selection</h2>
+            <label for="cg-select">Single select</label>
+            <select id="cg-select">
+                <option value="">-- choose --</option>
+                <option value="opt1">Option One</option>
+                <option value="opt2">Option Two</option>
+                <option value="opt3">Option Three</option>
+            </select>
+            <label for="cg-multi">Multi select</label>
+            <select id="cg-multi" multiple size="4">
+                <option value="m1">Multi One</option>
+                <option value="m2">Multi Two</option>
+                <option value="m3">Multi Three</option>
+            </select>
+            <label>Checkboxes</label>
+            <div class="row">
+                <label class="switch-wrap"><input type="checkbox" id="cg-chk1"> One</label>
+                <label class="switch-wrap"><input type="checkbox" id="cg-chk2"> Two</label>
+                <label class="switch-wrap"><input type="checkbox" id="cg-chk3"> Three</label>
+            </div>
+            <label>Radios</label>
+            <div class="row">
+                <label class="switch-wrap"><input type="radio" name="cg-radio" id="cg-radio1" value="r1"> R1</label>
+                <label class="switch-wrap"><input type="radio" name="cg-radio" id="cg-radio2" value="r2"> R2</label>
+                <label class="switch-wrap"><input type="radio" name="cg-radio" id="cg-radio3" value="r3"> R3</label>
+            </div>
+            <label class="switch-wrap" style="margin-top:12px;">
+                <input type="checkbox" role="switch" id="cg-switch"> Toggle switch
+            </label>
+        </div>
+
+        <!-- Range / date / time -->
+        <div class="section">
+            <h2>Range &amp; date/time</h2>
+            <label for="cg-range">Range slider</label>
+            <input type="range" id="cg-range" min="0" max="100" value="20" style="max-width:360px;width:100%;">
+            <label for="cg-date">Date</label><input type="date" id="cg-date">
+            <label for="cg-time">Time</label><input type="time" id="cg-time">
+        </div>
+
+        <!-- Buttons & links -->
+        <div class="section">
+            <h2>Buttons &amp; links</h2>
+            <div class="row">
+                <button id="cg-btn1" type="button">Primary action</button>
+                <button id="cg-btn2" type="button" class="btn-secondary">Double-click me</button>
+            </div>
+            <div style="margin-top:10px;">
+                <a href="#cg-anchor" class="gallery-link" id="cg-link1" onclick="return false;">Link one</a>
+                <a href="#cg-anchor" class="gallery-link" id="cg-link2" onclick="return false;">Link two</a>
+            </div>
+            <p id="cg-btn-status" style="color:#8a8a8a;font-size:0.85em;"></p>
+        </div>
+
+        <!-- ARIA widgets: tabs, menu, tree -->
+        <div class="section">
+            <h2>ARIA widgets</h2>
+            <div class="tabs" role="tablist">
+                <button class="tab" role="tab" id="cg-tab1" aria-selected="true" aria-controls="cg-panel1">Tab 1</button>
+                <button class="tab" role="tab" id="cg-tab2" aria-selected="false" aria-controls="cg-panel2">Tab 2</button>
+                <button class="tab" role="tab" id="cg-tab3" aria-selected="false" aria-controls="cg-panel3">Tab 3</button>
+            </div>
+            <div class="panel active" id="cg-panel1" role="tabpanel">Panel one content</div>
+            <div class="panel" id="cg-panel2" role="tabpanel">Panel two content</div>
+            <div class="panel" id="cg-panel3" role="tabpanel">Panel three content</div>
+
+            <div style="margin-top:14px;">
+                <button id="cg-menu-btn" type="button" aria-haspopup="true" aria-expanded="false">Open menu &#9662;</button>
+                <ul class="menu" id="cg-menu" role="menu">
+                    <li role="menuitem" id="cg-menu-item1" tabindex="0">Menu item 1</li>
+                    <li role="menuitem" id="cg-menu-item2" tabindex="0">Menu item 2</li>
+                    <li role="menuitem" id="cg-menu-item3" tabindex="0">Menu item 3</li>
+                </ul>
+            </div>
+
+            <label style="margin-top:14px;">Tree</label>
+            <ul class="tree" role="tree">
+                <li role="treeitem" id="cg-tree1" aria-selected="false">Node 1</li>
+                <li role="treeitem" id="cg-tree2" aria-selected="false">Node 2</li>
+                <li role="treeitem" id="cg-tree3" aria-selected="false">Node 3</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var status = document.getElementById('cg-btn-status');
+            document.getElementById('cg-btn1').addEventListener('click', function () { status.textContent = 'Primary clicked'; });
+            document.getElementById('cg-btn2').addEventListener('dblclick', function () { status.textContent = 'Secondary double-clicked'; });
+
+            // Tabs
+            var tabs = document.querySelectorAll('.tab');
+            tabs.forEach(function (t) {
+                t.addEventListener('click', function () {
+                    tabs.forEach(function (x) { x.setAttribute('aria-selected', 'false'); });
+                    document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+                    t.setAttribute('aria-selected', 'true');
+                    var panel = document.getElementById(t.getAttribute('aria-controls'));
+                    if (panel) panel.classList.add('active');
+                });
+            });
+
+            // Menu
+            var menuBtn = document.getElementById('cg-menu-btn');
+            var menu = document.getElementById('cg-menu');
+            menuBtn.addEventListener('click', function () {
+                var open = menu.classList.toggle('open');
+                menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+            menu.querySelectorAll('[role=menuitem]').forEach(function (mi) {
+                mi.addEventListener('click', function () {
+                    menu.classList.remove('open');
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                    status.textContent = mi.textContent + ' selected';
+                });
+            });
+
+            // Tree
+            document.querySelectorAll('.tree [role=treeitem]').forEach(function (n) {
+                n.addEventListener('click', function () {
+                    document.querySelectorAll('.tree [role=treeitem]').forEach(function (x) { x.setAttribute('aria-selected', 'false'); });
+                    n.setAttribute('aria-selected', 'true');
+                });
+            });
+        })();
+    </script>
+
+    <!-- Skan A/B harness contract: deterministic pass across a wide variety of controls. -->
+    <script>
+        window.__SKAN_TEST_PLAN__ = [
+            { selector: "#cg-text", action: "type", value: "sample text" },
+            { selector: "#cg-email", action: "type", value: "user@example.com" },
+            { selector: "#cg-search", action: "type", value: "query terms" },
+            { selector: "#cg-tel", action: "type", value: "5551234567" },
+            { selector: "#cg-url", action: "type", value: "https://skan.ai" },
+            { selector: "#cg-number", action: "type", value: "42" },
+            { selector: "#cg-password", action: "type", value: "s3cretPass" },
+            { selector: "#cg-textarea", action: "type", value: "line one" },
+            { selector: "#cg-editable", action: "type", value: "edited content" },
+            { selector: "#cg-select", action: "select", value: "opt2" },
+            { selector: "#cg-multi", action: "select", value: "m2" },
+            { selector: "#cg-chk1", action: "click" },
+            { selector: "#cg-chk2", action: "click" },
+            { selector: "#cg-chk3", action: "click" },
+            { selector: "#cg-radio2", action: "click" },
+            { selector: "#cg-switch", action: "click" },
+            { selector: "#cg-range", action: "click" },
+            { selector: "#cg-date", action: "type", value: "05/15/1990" },
+            { selector: "#cg-time", action: "type", value: "1030AM" },
+            { selector: "#cg-btn1", action: "hover" },
+            { selector: "#cg-btn1", action: "click" },
+            { selector: "#cg-btn2", action: "doubleclick" },
+            { selector: "#cg-link1", action: "click" },
+            { selector: "#cg-link2", action: "click" },
+            { selector: "#cg-tab2", action: "click" },
+            { selector: "#cg-tab3", action: "click" },
+            { selector: "#cg-menu-btn", action: "click" },
+            { selector: "#cg-menu-item1", action: "click" },
+            { selector: "#cg-tree2", action: "click" },
+            { selector: "#cg-tree3", action: "click" }
+        ];
+    </script>
+</body>
+</html>

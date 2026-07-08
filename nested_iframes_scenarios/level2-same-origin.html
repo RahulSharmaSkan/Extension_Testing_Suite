@@ -100,13 +100,17 @@
     <div class="communication-demo">
         <h4>🔄 Communication Flow Demo:</h4>
         <p id="communication-status">Waiting for child iframe to load...</p>
-        <button onclick="sendMessageToChild()" style="background:#4caf50;color:white;border:none;padding:5px 10px;border-radius:3px;cursor:pointer;">Send Message to Level 3</button>
-        <button onclick="sendMessageToParent()" style="background:#2196f3;color:white;border:none;padding:5px 10px;border-radius:3px;cursor:pointer;margin-left:5px;">Send Message to Level 1</button>
+        <label for="l2-input" style="display:block;margin:6px 0 2px;">Nested (2-deep) input:</label>
+        <input type="text" id="l2-input" placeholder="type here" style="padding:5px;border-radius:3px;border:none;">
+        <button id="l2-btn-child" onclick="sendMessageToChild()" style="background:#4caf50;color:white;border:none;padding:5px 10px;border-radius:3px;cursor:pointer;">Send Message to Level 3</button>
+        <button id="l2-btn-parent" onclick="sendMessageToParent()" style="background:#2196f3;color:white;border:none;padding:5px 10px;border-radius:3px;cursor:pointer;margin-left:5px;">Send Message to Level 1</button>
     </div>
     
     <script>
-    
-    
+        // No-op stubs so the harness clicks don't raise ReferenceErrors (the click still fires
+        // and is captured by the extension regardless).
+        function sendMessageToChild() { }
+        function sendMessageToParent() { }
     </script>
 </body>
 </html>

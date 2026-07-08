@@ -361,5 +361,15 @@
         // Demonstrate postMessage communication
         
     </script>
+
+    <!-- Skan A/B harness contract: drive the 2-deep same-origin iframe chain (Scenario 4) so the
+         extension's cross-frame capture / coordinate transformation is exercised deterministically. -->
+    <script>
+        window.__SKAN_TEST_PLAN__ = [
+            { frames: ["iframe[src='level1-same-origin.html']", "iframe[src='level2-same-origin.html']"], selector: "#l2-input", action: "type", value: "nested-2deep" },
+            { frames: ["iframe[src='level1-same-origin.html']", "iframe[src='level2-same-origin.html']"], selector: "#l2-btn-child", action: "click" },
+            { frames: ["iframe[src='level1-same-origin.html']", "iframe[src='level2-same-origin.html']"], selector: "#l2-btn-parent", action: "click" }
+        ];
+    </script>
 </body>
 </html>
